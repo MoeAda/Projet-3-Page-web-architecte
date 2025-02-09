@@ -1,10 +1,9 @@
 let connexion = document.getElementById("login")
 document.addEventListener("submit", function (event) {
-    let baliseMail = document.getElementById("mail")
-    let mail = baliseMail.value
-    console.log(mail)
+    event.preventDefault();
 
-let balisePassword = document.getElementById("password")
-    let password = balisePassword.value
-    console.log(password)      
+    let mail = document.getElementById("email").value;
+    let password = document.getElementById("password").value
+    console.log(mail);
+    console.log(password);      
 })
