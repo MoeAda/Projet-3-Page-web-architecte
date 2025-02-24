@@ -18,7 +18,8 @@
 		<ul>
 			<li>projets</li>
 			<li>contact</li>
-			<li><a href="login.html">login</a></li>
+			<li><a href="login.html" id="login">login</a></li>
+			<li><a href="#" id="logout">Logout</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -26,11 +27,13 @@
 <main>
     <section id="login">
 		<h2>Log In</h2>
-		<form action="#" method="post">
+		<form action="#" method="post" id="forms">
 			<label for="email">Email</label>
 			<input type="email" name="email" id="email">
+			<p id='emailError'>Email invalide</p>
 			<label for="password">Mot de passe</label>
 			<input type="password" name="password" id="password">
+			<p id='loginError'>Mot de passe ou Email incorect</p>
 			<input type="submit" value="Se connecter">
 		</form>
 	</section>
