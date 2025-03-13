@@ -13,7 +13,7 @@
 	<script src="https://kit.fontawesome.com/f0bb92af6d.js" crossorigin="anonymous"></script>
 </head>
 <body>
-	<div id="editeur"><i class="fa-regular fa-pen-to-square"></i>Mode édition</div>
+	<div id="editeur" style="display: none;"><i class="fa-regular fa-pen-to-square"></i>Mode édition</div>
 <header>
 	<div class="menu">
 		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
@@ -22,7 +22,7 @@
 				<li>projets</li>
 				<li>contact</li>
 				<li><a href="login.html" id="login">login</a></li>
-				<li><a href="#" id="logout">Logout</a></li>
+				<li><a href="#" id="logout" style="display: none;">Logout</a></li>
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 			</ul>
 		</nav>
@@ -41,7 +41,46 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
+		<div class="title-projet">
+			<h2>Mes Projets</h2>
+			<span class="modifier" style="display: none;">
+				<i class="fa-regular fa-pen-to-square"></i>
+				<a href="#modal" class="js-modal">modifier</a>
+			</span>
+		</div>
+		<aside id="modal" class="modal" aria-hidden="true" role="dialog" style="display: none;">
+			<div id="js-modal-stop">
+				<div class="modal-wrapper" data-name="modalGallery" style="display: none;">
+					<button class="js-close-modal"><i class="fa-solid fa-xmark"></i></button>
+					<h2 class="modal-title">Galeries photo</h2>
+					<div id="modal-gallery"></div>
+					<button class="modal-button" type="button">Ajouter une photo</button>
+				</div>
+				<div class="modal-wrapper" data-name="modalForm" style="display: flex;">
+					<button class="js-return-modal"><i class="fa-solid fa-arrow-left" style="color: #000000;"></i></button>
+					<button class="js-close-modal"><i class="fa-solid fa-xmark"></i></button>
+					<h2 class="modal-title">Ajout photo</h2>
+					<div id="modal-form">
+						<form class="workForm" name="workForm">
+							<div id="labelPhoto">
+								<i class="fa-regular fa-image pictureAdd" style="color: #aaaaaa"></i>
+								<label for="image" id="label-image"> + Ajouter une photo</label>
+								<input type="file" name="image" id="image" style="display: none;">
+								<p>jpg, png : 4mo max</p>
+							</div>
+							<div id="workPreview" style="display: none;">
+								<img id="imagePreview" src="" alt="Prévisualisation de l'image" style="max-width: 100%; height: auto;">
+							</div>
+							<label for="title">Titre</label>
+							<input type="text" id="title-input" name="title" required>
+							<label class="selectCategory" for="selectCategory">Catégorie</label>
+							<select id="selectCategory" name="selectCategory"></select>
+							<input type="submit" value="Valider" id="modal-valider">
+						</form>
+					</div>
+				</div>
+			</div>
+		</aside>
 		<div id="categories">
 
 		</div>
@@ -55,7 +94,7 @@
 		<form action="#" method="post">
 			<label for="name">Nom</label>
 			<input type="text" name="name" id="name">
-			<label for="email">Email</label>
+			<label for="email" >Email</label>
 			<input type="email" name="email" id="email">
 			<label for="message">Message</label>
 			<textarea name="message" id="message" cols="30" rows="10"></textarea>
