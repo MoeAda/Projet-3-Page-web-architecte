@@ -2,30 +2,34 @@ const login = document.getElementById("login");
 const logout = document.getElementById("logout");
 const editor = document.getElementById("editeur");
 const token = window.localStorage.getItem("token");
-const modify =document.querySelector(".modifier");
+const modify = document.querySelector(".modifier");
+const categories = document.querySelector("#selectCategory");
+const formBtn = document.querySelector("#modal-valider");
+const formInput = document.querySelector(".workForm");
+const modalGallery = document.getElementById("modalGallery");
+const modalForm = document.getElementById("modalForm");
 
-window.onload = function() {
+window.onload = function () {
   getToken(); // Exécute ton code une fois que tout le DOM est chargé
 };
 
-logout.addEventListener("click", ()=> {
-  window.localStorage.removeItem("token")
+logout.addEventListener("click", () => {
+  window.localStorage.removeItem("token");
   getToken();
-})
+});
 
-
-function getToken(){
+function getToken() {
   const token = window.localStorage.getItem("token");
   if (token) {
     login.style.display = "none";
     editor.style.display = "flex";
     logout.style.display = "block";
     modify.style.display = "flex";
-  }else{
+  } else {
     logout.style.display = "none";
     editor.style.display = "none";
     login.style.display = "block";
-    modify.style.display = "none";  
+    modify.style.display = "none";
   }
 }
 
@@ -44,16 +48,19 @@ async function getCategories() {
 
     data.forEach((item) => {
       const categorieButton = document.createElement("button");
+      const option = document.createElement("option");
       categorieButton.type = "button";
       categorieButton.className = "btn-styled";
       categorieButton.value = item.id;
       categorieButton.innerText = item.name;
       filters.appendChild(categorieButton);
+
+      option.value = item.id;
+      option.text = item.name;
+      categories.appendChild(option);
     });
 
     filters.addEventListener("click", (event) => {
-      console.log("ID de la catégorie :", event.target.value);
-      // "Reload" les données
       getWorks(event.target.value);
     });
   } catch (error) {
@@ -61,19 +68,19 @@ async function getCategories() {
   }
 }
 
-console.log(token)
 async function getWorks(categoryId = "0") {
   try {
     const response = await fetch("http://localhost:5678/api/works");
     const data = await response.json();
- 
-    getWorksForModal(data)
-    
+    getWorksForModal(data);
 
     const gallery = document.querySelector("#gallery");
     gallery.innerHTML = "";
     data
-      .filter((item) => item.categoryId.toString() === categoryId || categoryId === "0")
+      .filter(
+        (item) =>
+          item.categoryId.toString() === categoryId || categoryId === "0"
+      )
       .forEach((item) => {
         const figure = document.createElement("figure");
         const img = document.createElement("img");
@@ -93,11 +100,7 @@ async function getWorks(categoryId = "0") {
   }
 }
 
-getCategories();
-getWorks();
-getToken()
-
-async function deleteWork(id){
+async function deleteWork(id) {
   if (confirm("Voulez-vous supprimer ce travail?")) {
     try {
       const response = await fetch(`http://localhost:5678/api/works/${id}`, {
@@ -119,50 +122,61 @@ async function deleteWork(id){
     }
   }
 }
- 
-let modal = null
 
-const openModal = function(e){
+let modal = null;
+
+const openModal = function (e) {
   e.preventDefault();
   const target = document.querySelector(e.target.getAttribute("href"));
-    target.style.display = "flex";
-    target.removeAttribute("aria-hidden");
+  target.style.display = "flex";
+  target.removeAttribute("aria-hidden");
   modal = target;
-  modal.addEventListener("click", closeModal)
-  modal.querySelector(".js-close-modal").addEventListener("click", closeModal)
-  modal.querySelector("#js-modal-stop").addEventListener("click", stopPropagation)
-  
-}
 
-const closeModal = function(e) {
-  if (modal === null) return
+  modalGallery.style.display = "flex";
+  modalForm.style.display = "none";
+
+  modal.querySelectorAll(".js-close-modal").forEach(function (closeButton) {
+    closeButton.addEventListener("click", closeModal);
+  });
+
+  modal
+    .querySelector("#js-modal-stop")
+    .addEventListener("click", stopPropagation);
+};
+
+const closeModal = function (e) {
+  console.log(e);
+  if (modal === null) return;
   e.preventDefault();
   modal.style.display = "none";
   modal.setAttribute("aria-hidden", true);
-  modal.removeEventListener("click", closeModal)
-  modal.querySelector(".js-close-modal").removeEventListener("click", closeModal)
-  modal.querySelector("#js-modal-stop").removeEventListener("click", stopPropagation)
-  modal = null
-}
+  modal.removeEventListener("click", closeModal);
+  modal
+    .querySelector(".js-close-modal")
+    .removeEventListener("click", closeModal);
+  modal
+    .querySelector("#js-modal-stop")
+    .removeEventListener("click", stopPropagation);
+  modal = null;
+};
 
-const stopPropagation = function(e) {
-  e.stopPropagation()
-}
+const stopPropagation = function (e) {
+  e.stopPropagation();
+};
 
-document.querySelectorAll(".js-modal").forEach(a => {
-  a.addEventListener("click", openModal)
+document.querySelectorAll(".js-modal").forEach((a) => {
+  a.addEventListener("click", openModal);
 });
 
 async function getWorksForModal(data) {
   try {
-  
     /*
     const response = await fetch("http://localhost:5678/api/works");
     const data = await response.json();
     */
-    
-    const modalGallery = document.querySelector("#modal-gallery"); 
-    modalGallery.innerHTML = ""; 
+
+    const modalGallery = document.querySelector("#modal-gallery");
+    modalGallery.innerHTML = "";
 
     data.forEach((item) => {
       const figure = document.createElement("figure");
@@ -172,8 +186,8 @@ async function getWorksForModal(data) {
       img.setAttribute("alt", item.title);
       const button = document.createElement("button");
       button.type = "button";
-      button.className = "btn-styled";
-      button.innerText = "Supprimer";
+      button.className = "trash-styled";
+      button.innerHTML = '<i class="fa-solid fa-trash-can fa-xs" style="color: #ffffff;"></i>';
       button.value = item.id;
 
       figure.appendChild(button);
@@ -183,24 +197,34 @@ async function getWorksForModal(data) {
       modalGallery.appendChild(figure);
 
       button.addEventListener("click", () => {
-        console.log(button.value)
-      deleteWork(button.value)
-      })
+        console.log(button.value);
+        deleteWork(button.value);
+      });
     });
-
   } catch (error) {
-    console.log("Erreur lors de la récupération des works pour la modale :", error);
+    console.log(
+      "Erreur lors de la récupération des works pour la modale :",
+      error
+    );
   }
 }
 
-async function formSubmit(event) {
-  event.preventDefault()
+function nextModal() {
+  console.log(modalGallery.style.display)
+  modalGallery.style.display = "none";
+  modalForm.style.display = "flex";
+}
+ const addPictureBtn = document.getElementById("add-picture");
 
-  const form = event.target;
-  const imageInput = form.querySelector("#image");
-  const titleInput = form.querySelector("#title-input");
-  const categorySelect = form.querySelector("#selectCategory");
-  const image = imageInput.files[0];
+addPictureBtn.addEventListener("click", function (e) {
+  e.preventDefault();
+  nextModal();
+});
+
+function formSubmit() {
+  const image = formInput.querySelector("#image").files[0];
+  const titleInput = formInput.querySelector("#title-input");
+  const categorySelect = formInput.querySelector("#selectCategory");
 
   if (!image || !["image/jpeg", "image/png"].includes(image.type)) {
     alert("Veuillez sélectionner une image au format .jpg ou .png.");
@@ -226,31 +250,57 @@ async function formSubmit(event) {
 
   const formData = new FormData();
   formData.append("title", title);
-  formData.append("categoryId", category);
+  formData.append("category", category);
   formData.append("image", image);
 
-  try {
-    const response = await fetch("http://localhost:5678/api/works", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      body: formData,
+  fetch("http://localhost:5678/api/works", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    body: formData,
+  })
+    .then((response) => {
+      if (response.ok) {
+        alert("Photo ajoutée avec succès");
+
+        getWorks();
+      } else {
+        throw new Error("Echec de l'ajout de la photo");
+      }
+    })
+    .catch((err) => {
+      console.error("Erreur : ", err);
+      alert("Erreur lors de l'ajout de la photo : " + err.message);
     });
-
-    if (response.ok) {
-      const newWork = await response.json();
-      alert("Photo ajoutée avec succès");
-
-      const worls = await getWorks;
-    } else {
-      throw new Error("Echec de l'ajour de la photo");
-    }
-  } catch (error) {
-    console.error("Erreur lors de l'ajout de la photo", error);
-  }
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+  const imageInput = document.getElementById("image");
+  const imagePreview = document.getElementById("imagePreview");
+  const workPreview = document.getElementById("workPreview");
 
+  imageInput.addEventListener("change", function () {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        imagePreview.src = e.target.result;
+        workPreview.style.display = "block"; // Affiche la prévisualisation
+      };
+      reader.readAsDataURL(file);
+    } else {
+      workPreview.style.display = "none"; // Cache la prévisualisation si aucun fichier
+    }
+  });
+});
 
+// On créer un eventListener pour récupérer les informations une fois le bouton de soumission clicker
+formBtn.addEventListener("click", function (e) {
+  e.preventDefault();
+  formSubmit();
+});
 
+getCategories();
+getWorks();
+getToken();

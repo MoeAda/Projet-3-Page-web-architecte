@@ -134,10 +134,26 @@ a {
 
 .modal-wrapper {
 	background-color: #FFFFFF;
-	width: 630px;
-	height: 688px;
-	padding: 20px;
-	border-radius: 10px;
+    width: 525px;
+    height: 688px;
+    padding: 20px 105px;
+    border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.fa-xmark {
+	position: absolute;
+    left: 750px;
+	top: 40px;
+}
+
+.fa-arrow-leftà {
+	position: absolute;
+    right: 750px;
+    top: 40px;
 }
 
 .modal-title {
@@ -154,6 +170,39 @@ a {
 	padding: 10px;
     font-family: 'Syne';
 	background-color: #1D6154;
+	width: 237px;
+	margin-bottom: 50px
+}
+
+#modal-gallery {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	max-height: 50%;
+    overflow: auto;
+	gap: 10px;
+	border-bottom: 1px #B3B3B3 solid;
+	padding-bottom: 100px;
+}
+
+.trash-styled {
+	background-color: black;
+    border-radius: 3px;
+	padding: 2px 5px;
+	position: absolute;
+}
+
+figure > img {
+	width: 102px;
+}
+
+.modal-header {
+	display: flex;
+    justify-content: space-between;
+}
+
+button {
+	background-color: white;
+    border: none;
 }
 
 nav ul {
@@ -286,6 +335,3 @@ footer nav ul {
 }
 
 
-figure > img {
-	width: 25px;
-}
