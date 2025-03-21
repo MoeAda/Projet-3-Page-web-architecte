@@ -70,10 +70,3 @@ forms.addEventListener("submit", (event) => {
     });
 });
 
-
-
-
-// Cacher login en display none
-// Si je suis connecté afficher logout si je clique dessus on vide le localstorage (créer une fonction dans script.js)
-// Créer la banniere noir en haut de la page ainsi que le bouton d'édition
-// Créer la modal pour l'édition (premiere page)

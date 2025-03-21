@@ -191,13 +191,11 @@ async function getWorksForModal(data) {
       button.value = item.id;
 
       figure.appendChild(button);
-
       figure.appendChild(img);
 
       modalGallery.appendChild(figure);
 
       button.addEventListener("click", () => {
-        console.log(button.value);
         deleteWork(button.value);
       });
     });
@@ -214,11 +212,24 @@ function nextModal() {
   modalGallery.style.display = "none";
   modalForm.style.display = "flex";
 }
+
+function previousModal() {
+  console.log(modalGallery.style.display)
+  modalGallery.style.display = "flex";
+  modalForm.style.display = "none";
+}
+
  const addPictureBtn = document.getElementById("add-picture");
+ const returnModal = document.querySelector(".js-return-modal")
 
 addPictureBtn.addEventListener("click", function (e) {
   e.preventDefault();
   nextModal();
+});
+
+returnModal.addEventListener("click", function (e) {
+  e.preventDefault();
+  previousModal();
 });
 
 function formSubmit() {

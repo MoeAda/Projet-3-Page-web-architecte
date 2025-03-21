@@ -103,7 +103,7 @@ h1 > span {
 	gap: 20px;
 }
 
-h2{
+h2 {
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
@@ -138,22 +138,22 @@ a {
     height: 688px;
     padding: 20px 105px;
     border-radius: 10px;
+	position: relative;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
+    align-items: center;
 }
 
-.fa-xmark {
+.js-close-modal {
 	position: absolute;
-    left: 750px;
-	top: 40px;
+    left: 690px;
+    top: 20px;
 }
 
-.fa-arrow-leftà {
+.js-return-modal {
 	position: absolute;
-    right: 750px;
-    top: 40px;
+    right: 690px;
+    top: 20px;
 }
 
 .modal-title {
@@ -161,6 +161,8 @@ a {
 	font-size: 26px;
 	font-weight: 400;
 	color: black;
+	margin-top: 40px;
+	margin-bottom: 50px;
 }
 
 .modal-button {
@@ -171,17 +173,20 @@ a {
     font-family: 'Syne';
 	background-color: #1D6154;
 	width: 237px;
-	margin-bottom: 50px
+    margin-top: 40px;
 }
 
 #modal-gallery {
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
 	max-height: 50%;
-    overflow: auto;
 	gap: 10px;
 	border-bottom: 1px #B3B3B3 solid;
-	padding-bottom: 100px;
+	padding-bottom: 80px;
+}
+
+#modal-gallery > figure {
+	position: relative;
 }
 
 .trash-styled {
@@ -189,16 +194,83 @@ a {
     border-radius: 3px;
 	padding: 2px 5px;
 	position: absolute;
+	top: 7px;
+	right: 5px;
+}
+
+.workForm {
+	display: flex;
+    flex-direction: column;
+    width: 420px;
+}
+
+#labelPhoto {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    background-color: #E8F1F6;
+    border-radius: 3px;
+    margin-bottom: 30px;
+    gap: 10px;
+    padding-bottom: 20px;
+}
+
+.fa-image {
+	font-size: 76px;
+    color: #B9C5CC;
+    margin: 20px;
+}
+
+#label-image {
+	background-color: #B9C5CC;
+    padding: 10px 33px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #306685;
 }
 
 figure > img {
-	width: 102px;
+	width: 80px;
+}
+
+.workForm > input {
+	border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    height: 50px;
+    margin-top: 10px;
+}
+
+.selectCategory {
+	margin-top: 20px;
+}
+
+.workForm > select {
+	border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    height: 50px;
+    margin-top: 10px;
+}
+
+.submit-btn {
+	display: flex;
+	border-top: 1px solid #B3B3B3;
+	padding-top: 15px;
+	margin-top: 50px
 }
 
 .modal-header {
 	display: flex;
     justify-content: space-between;
 }
+
+#modal-valider[disabled] {
+		background-color: #A7A7A7;
+		cursor: not-allowed;
+	  }
 
 button {
 	background-color: white;
@@ -219,13 +291,20 @@ nav li {
 li:hover {
 	color: #B1663C;
 }
+
+nav li a:hover {
+	color: #B1663C;
+}
+
 #introduction {
 	display: flex;
 	align-items: center;
 }
+
 #introduction figure {
 	flex: 1
 }
+
 #introduction img {
 	display: block;
 	margin: auto;
@@ -235,6 +314,7 @@ li:hover {
 #introduction article {
 	flex: 1
 }
+
 #introduction h2 {
 	margin-bottom: 1em;
 }
@@ -242,6 +322,7 @@ li:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
+
 #portfolio h2 {
 	text-align: center;
 }
