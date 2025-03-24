@@ -209,12 +209,21 @@ a {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    height: auto;
+    height: 193px;
     background-color: #E8F1F6;
     border-radius: 3px;
     margin-bottom: 30px;
     gap: 10px;
-    padding-bottom: 20px;
+}
+
+#file-image {
+	display: flex;
+    flex-direction: column;
+    align-items: center
+}
+
+#imagePreview {
+	height: 193px;
 }
 
 .fa-image {
@@ -231,6 +240,10 @@ a {
     font-size: 14px;
     font-weight: 500;
     color: #306685;
+}
+
+#file-image > p {
+	margin-top: 10px;
 }
 
 figure > img {
@@ -398,7 +411,7 @@ padding-top: 5px;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"]{
+button[type="submit"]{
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;

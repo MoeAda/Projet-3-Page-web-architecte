@@ -18,6 +18,44 @@ logout.addEventListener("click", () => {
   getToken();
 });
 
+const checkFormValidity = () => {
+  const image = formInput.querySelector("#image").files[0];
+  const titleInput = formInput.querySelector("#title-input");
+  const categorySelect = formInput.querySelector("#selectCategory");
+  const addSubmitButton = formInput.querySelector("#modal-valider");
+  const labelPhoto = formInput.querySelector("#labelPhoto")
+
+  addSubmitButton.disabled = false;
+
+  if (!image || !["image/jpeg", "image/png"].includes(image.type) || image.size > 4 * 1024 * 1024) {
+    //("Veuillez sélectionner une image au format .jpg ou .png.");
+    labelPhoto.style.border = "red solid 1px";
+    addSubmitButton.disabled = true;
+  } else {
+    labelPhoto.style.border = "none";
+  }
+
+  const title = titleInput.value.trim();
+  if (!title) {
+    //("Veuillez entrer un titre.");
+    titleInput.style.border = "red solid 1px";
+    addSubmitButton.disabled = true;
+  } else {
+    titleInput.style.border = "none";
+  }
+
+  const category = categorySelect.value;
+  if (!category) {
+    //("Veuillez sélectionner une catégorie.");
+    categorySelect.style.border = "red solid 1px";
+    addSubmitButton.disabled = true;
+  } else {
+    categorySelect.style.border = "none";
+  } 
+}
+
+formInput.addEventListener("change", checkFormValidity);
+
 function getToken() {
   const token = window.localStorage.getItem("token");
   if (token) {
@@ -57,8 +95,11 @@ async function getCategories() {
 
       option.value = item.id;
       option.text = item.name;
+      option.selected = false;
       categories.appendChild(option);
     });
+
+    categories.value = null;
 
     filters.addEventListener("click", (event) => {
       getWorks(event.target.value);
@@ -187,7 +228,8 @@ async function getWorksForModal(data) {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "trash-styled";
-      button.innerHTML = '<i class="fa-solid fa-trash-can fa-xs" style="color: #ffffff;"></i>';
+      button.innerHTML =
+        '<i class="fa-solid fa-trash-can fa-xs" style="color: #ffffff;"></i>';
       button.value = item.id;
 
       figure.appendChild(button);
@@ -208,19 +250,19 @@ async function getWorksForModal(data) {
 }
 
 function nextModal() {
-  console.log(modalGallery.style.display)
+  console.log(modalGallery.style.display);
   modalGallery.style.display = "none";
   modalForm.style.display = "flex";
 }
 
 function previousModal() {
-  console.log(modalGallery.style.display)
+  console.log(modalGallery.style.display);
   modalGallery.style.display = "flex";
   modalForm.style.display = "none";
 }
 
- const addPictureBtn = document.getElementById("add-picture");
- const returnModal = document.querySelector(".js-return-modal")
+const addPictureBtn = document.getElementById("add-picture");
+const returnModal = document.querySelector(".js-return-modal");
 
 addPictureBtn.addEventListener("click", function (e) {
   e.preventDefault();
@@ -234,30 +276,8 @@ returnModal.addEventListener("click", function (e) {
 
 function formSubmit() {
   const image = formInput.querySelector("#image").files[0];
-  const titleInput = formInput.querySelector("#title-input");
-  const categorySelect = formInput.querySelector("#selectCategory");
-
-  if (!image || !["image/jpeg", "image/png"].includes(image.type)) {
-    alert("Veuillez sélectionner une image au format .jpg ou .png.");
-    return;
-  }
-
-  if (image.size > 4 * 1024 * 1024) {
-    alert("La taille de l'image ne doit pas dépasser 4 Mo.");
-    return;
-  }
-
-  const title = titleInput.value.trim();
-  if (!title) {
-    alert("Veuillez entrer un titre.");
-    return;
-  }
-
-  const category = categorySelect.value;
-  if (!category) {
-    alert("Veuillez sélectionner une catégorie.");
-    return;
-  }
+  const title = formInput.querySelector("#title-input").value;
+  const category = formInput.querySelector("#selectCategory").value;
 
   const formData = new FormData();
   formData.append("title", title);
@@ -290,6 +310,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const imageInput = document.getElementById("image");
   const imagePreview = document.getElementById("imagePreview");
   const workPreview = document.getElementById("workPreview");
+  const fileImage = document.getElementById("file-image");
 
   imageInput.addEventListener("change", function () {
     const file = this.files[0];
@@ -297,7 +318,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const reader = new FileReader();
       reader.onload = function (e) {
         imagePreview.src = e.target.result;
-        workPreview.style.display = "block"; // Affiche la prévisualisation
+        workPreview.style.display = "flex"; // Affiche la prévisualisation
+        fileImage.style.display = "none";
       };
       reader.readAsDataURL(file);
     } else {

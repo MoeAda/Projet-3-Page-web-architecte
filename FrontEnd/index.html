@@ -65,19 +65,21 @@
 					<div id="modal-form">
 						<form class="workForm" name="workForm">
 							<div id="labelPhoto">
-								<i class="fa-regular fa-image pictureAdd"></i>
-								<label for="image" id="label-image"> + Ajouter une photo</label>
-								<input type="file" name="image" id="image" style="display: none;">
-								<p>jpg, png : 4mo max</p>
-							</div>
-							<div id="workPreview" style="display: none;">
-								<img id="imagePreview" src="" alt="Prévisualisation de l'image" style="max-width: 100%; height: 76px;">
+								<div id="workPreview" style="display: none;">
+									<img id="imagePreview" src="" alt="Prévisualisation de l'image">
+								</div>
+								<div id="file-image" style="display: flex";>
+									<i class="fa-regular fa-image pictureAdd"></i>
+									<label for="image" id="label-image"> + Ajouter une photo</label>
+									<input type="file" name="image" id="image" style="display: none;">
+									<p>jpg, png : 4mo max</p>
+								</div>
 							</div>
 							<label for="title">Titre</label>
 							<input type="text" id="title-input" name="title" required>
 							<label class="selectCategory" for="selectCategory">Catégorie</label>
 							<select id="selectCategory" name="selectCategory"></select>
-							<div class="submit-btn"><input type="submit" value="Valider" id="modal-valider" class="modal-button"></div>
+							<div class="submit-btn"><button type="submit" id="modal-valider" class="modal-button" disabled>Valider</button></div>
 						</form>
 					</div>
 				</div>
