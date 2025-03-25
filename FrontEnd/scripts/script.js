@@ -1,3 +1,5 @@
+// Définition des variables //
+
 const login = document.getElementById("login");
 const logout = document.getElementById("logout");
 const editor = document.getElementById("editeur");
@@ -9,52 +11,18 @@ const formInput = document.querySelector(".workForm");
 const modalGallery = document.getElementById("modalGallery");
 const modalForm = document.getElementById("modalForm");
 
+// Exécute le code une fois que tout le DOM est chargé //
+
 window.onload = function () {
-  getToken(); // Exécute ton code une fois que tout le DOM est chargé
+  getToken(); 
 };
+
+// Connexion //
 
 logout.addEventListener("click", () => {
   window.localStorage.removeItem("token");
   getToken();
 });
-
-const checkFormValidity = () => {
-  const image = formInput.querySelector("#image").files[0];
-  const titleInput = formInput.querySelector("#title-input");
-  const categorySelect = formInput.querySelector("#selectCategory");
-  const addSubmitButton = formInput.querySelector("#modal-valider");
-  const labelPhoto = formInput.querySelector("#labelPhoto")
-
-  addSubmitButton.disabled = false;
-
-  if (!image || !["image/jpeg", "image/png"].includes(image.type) || image.size > 4 * 1024 * 1024) {
-    //("Veuillez sélectionner une image au format .jpg ou .png.");
-    labelPhoto.style.border = "red solid 1px";
-    addSubmitButton.disabled = true;
-  } else {
-    labelPhoto.style.border = "none";
-  }
-
-  const title = titleInput.value.trim();
-  if (!title) {
-    //("Veuillez entrer un titre.");
-    titleInput.style.border = "red solid 1px";
-    addSubmitButton.disabled = true;
-  } else {
-    titleInput.style.border = "none";
-  }
-
-  const category = categorySelect.value;
-  if (!category) {
-    //("Veuillez sélectionner une catégorie.");
-    categorySelect.style.border = "red solid 1px";
-    addSubmitButton.disabled = true;
-  } else {
-    categorySelect.style.border = "none";
-  } 
-}
-
-formInput.addEventListener("change", checkFormValidity);
 
 function getToken() {
   const token = window.localStorage.getItem("token");
@@ -70,6 +38,8 @@ function getToken() {
     modify.style.display = "none";
   }
 }
+
+// Génération des travaux dans la gallerie et des filtres //
 
 async function getCategories() {
   try {
@@ -141,28 +111,7 @@ async function getWorks(categoryId = "0") {
   }
 }
 
-async function deleteWork(id) {
-  if (confirm("Voulez-vous supprimer ce travail?")) {
-    try {
-      const response = await fetch(`http://localhost:5678/api/works/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.ok) {
-        console.log("Travail supprimé");
-        getWorks();
-      } else {
-        console.error("Erreur lors de la suppression du travail");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-}
+// ---- Génération de la modal Gallerie ---- //
 
 let modal = null;
 
@@ -209,13 +158,10 @@ document.querySelectorAll(".js-modal").forEach((a) => {
   a.addEventListener("click", openModal);
 });
 
+// Génération de la gallerie + bouton supprimer //
+
 async function getWorksForModal(data) {
   try {
-    /*
-    const response = await fetch("http://localhost:5678/api/works");
-    const data = await response.json();
-    */
-
     const modalGallery = document.querySelector("#modal-gallery");
     modalGallery.innerHTML = "";
 
@@ -249,6 +195,37 @@ async function getWorksForModal(data) {
   }
 }
 
+// Supprimer des travaux //
+
+async function deleteWork(id) {
+  if (confirm("Voulez-vous supprimer ce travail?")) {
+    try {
+      const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        console.log("Travail supprimé");
+        getWorks();
+      } else {
+        console.error("Erreur lors de la suppression du travail");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
+
+// ---- Génération de la modal Formulaire ---- // 
+
+// Header de la modal Formulaire //
+const addPictureBtn = document.getElementById("add-picture");
+const returnModal = document.querySelector(".js-return-modal");
+
 function nextModal() {
   console.log(modalGallery.style.display);
   modalGallery.style.display = "none";
@@ -261,9 +238,6 @@ function previousModal() {
   modalForm.style.display = "none";
 }
 
-const addPictureBtn = document.getElementById("add-picture");
-const returnModal = document.querySelector(".js-return-modal");
-
 addPictureBtn.addEventListener("click", function (e) {
   e.preventDefault();
   nextModal();
@@ -273,6 +247,8 @@ returnModal.addEventListener("click", function (e) {
   e.preventDefault();
   previousModal();
 });
+
+// Formulaire //
 
 function formSubmit() {
   const image = formInput.querySelector("#image").files[0];
@@ -328,7 +304,47 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// On créer un eventListener pour récupérer les informations une fois le bouton de soumission clicker
+// Activation du bouton valider //
+
+const checkFormValidity = () => {
+  const image = formInput.querySelector("#image").files[0];
+  const titleInput = formInput.querySelector("#title-input");
+  const categorySelect = formInput.querySelector("#selectCategory");
+  const addSubmitButton = formInput.querySelector("#modal-valider");
+  const labelPhoto = formInput.querySelector("#labelPhoto")
+
+  addSubmitButton.disabled = false;
+
+  if (!image || !["image/jpeg", "image/png"].includes(image.type) || image.size > 4 * 1024 * 1024) {
+    //("Veuillez sélectionner une image au format .jpg ou .png.");
+    labelPhoto.style.border = "red solid 1px";
+    addSubmitButton.disabled = true;
+  } else {
+    labelPhoto.style.border = "none";
+  }
+
+  const title = titleInput.value.trim();
+  if (!title) {
+    //("Veuillez entrer un titre.");
+    titleInput.style.border = "red solid 1px";
+    addSubmitButton.disabled = true;
+  } else {
+    titleInput.style.border = "none";
+  }
+
+  const category = categorySelect.value;
+  if (!category) {
+    categorySelect.style.border = "red solid 1px";
+    addSubmitButton.disabled = true;
+  } else {
+    categorySelect.style.border = "none";
+  } 
+}
+
+formInput.addEventListener("change", checkFormValidity);
+
+// Récupérer les informations //
+
 formBtn.addEventListener("click", function (e) {
   e.preventDefault();
   formSubmit();
