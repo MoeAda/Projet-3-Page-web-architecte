@@ -47,6 +47,8 @@ h1 > span {
 	letter-spacing: 0.1em;
 }
 
+/* Menu */
+
 nav ul {
 	display: flex;
 	align-items: center;
@@ -70,6 +72,8 @@ li:hover {
 #login > a:hover {
 	color: #B1663C;
 }
+
+/* Formulaire de connexion */
 
 #login-form {
 	width: 50%;

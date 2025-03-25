@@ -1,9 +1,13 @@
+// Définition des variables //
+
 const inputEmail = document.getElementById("email");
 const inputPassword = document.getElementById("password");
 const forms = document.getElementById("forms");
 const loginError = document.getElementById("loginError");
 const errorEmail = document.getElementById("errorEmail");
 const login = document.getElementById("login");
+
+// Vérification du mail et du password //
 
 inputEmail.addEventListener("change", (event) => {
   const emailValue = event.target.value.trim();
@@ -17,7 +21,6 @@ inputEmail.addEventListener("change", (event) => {
   }
 });
 
-/// Faire pareil avec le mot de passe pour vérifier qu'il sois conforme
 inputPassword.addEventListener("change", (event) => {
   const passwordValue = event.target.value.trim();
   const passwordRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -29,6 +32,8 @@ inputPassword.addEventListener("change", (event) => {
     errorPassword.setAttribute("style", "display:none;");
   }
 });
+
+// Connexion // 
 
 forms.addEventListener("submit", (event) => {
   event.preventDefault();
