@@ -3,6 +3,8 @@
 const login = document.getElementById("login");
 const logout = document.getElementById("logout");
 const editor = document.getElementById("editeur");
+const filters = document.getElementById("categories")
+const gallery = document.getElementById("gallery");
 const token = window.localStorage.getItem("token");
 const modify = document.querySelector(".modifier");
 const categories = document.querySelector("#selectCategory");
@@ -31,11 +33,15 @@ function getToken() {
     editor.style.display = "flex";
     logout.style.display = "block";
     modify.style.display = "flex";
+    filters.style.display = "none";
+    gallery.style.marginTop = "90px";
   } else {
     logout.style.display = "none";
     editor.style.display = "none";
     login.style.display = "block";
     modify.style.display = "none";
+    filters.style.display = "flex";
+    gallery.style.marginTop = "0";
   }
 }
 
@@ -46,7 +52,6 @@ async function getCategories() {
     const response = await fetch("http://localhost:5678/api/categories");
     const data = await response.json();
 
-    const filters = document.getElementById("categories");
     const button = document.createElement("button");
     button.type = "button";
     button.className = "btn-styled";
@@ -85,7 +90,6 @@ async function getWorks(categoryId = "0") {
     const data = await response.json();
     getWorksForModal(data);
 
-    const gallery = document.querySelector("#gallery");
     gallery.innerHTML = "";
     data
       .filter(
@@ -163,6 +167,7 @@ document.querySelectorAll(".js-modal").forEach((a) => {
 async function getWorksForModal(data) {
   try {
     const modalGallery = document.querySelector("#modal-gallery");
+    const gallery = document.querySelector("#gallery");
     modalGallery.innerHTML = "";
 
     data.forEach((item) => {
@@ -223,6 +228,7 @@ async function deleteWork(id) {
 // ---- Génération de la modal Formulaire ---- // 
 
 // Header de la modal Formulaire //
+
 const addPictureBtn = document.getElementById("add-picture");
 const returnModal = document.querySelector(".js-return-modal");
 
